@@ -33,18 +33,18 @@
             label1 = new Label();
             DefaultBlockTypeDropdown = new ComboBox();
             label2 = new Label();
-            BlueprintNameTextbox = new TextBox();
+            blueprintNameTextBox = new TextBox();
             fileLabel = new Label();
             scaleInput = new NumericUpDown();
             label3 = new Label();
             roundColorsCheckBox = new CheckBox();
-            orientationDropdown = new ComboBox();
+            orientationComboBox = new ComboBox();
             label4 = new Label();
             label5 = new Label();
-            scaleDownFactorInput = new NumericUpDown();
+            scaleDownInput = new NumericUpDown();
             ditheringCheckBox = new CheckBox();
             ((System.ComponentModel.ISupportInitialize)scaleInput).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)scaleDownFactorInput).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)scaleDownInput).BeginInit();
             SuspendLayout();
             // 
             // ConvertButton
@@ -65,7 +65,7 @@
             Browse.TabIndex = 1;
             Browse.Text = "Browse";
             Browse.UseVisualStyleBackColor = true;
-            Browse.Click += Browse_Click;
+            Browse.Click += BrowseButton_Click;
             // 
             // label1
             // 
@@ -95,10 +95,10 @@
             // 
             // BlueprintNameTextbox
             // 
-            BlueprintNameTextbox.Location = new Point(401, 356);
-            BlueprintNameTextbox.Name = "BlueprintNameTextbox";
-            BlueprintNameTextbox.Size = new Size(164, 25);
-            BlueprintNameTextbox.TabIndex = 5;
+            blueprintNameTextBox.Location = new Point(401, 356);
+            blueprintNameTextBox.Name = "BlueprintNameTextbox";
+            blueprintNameTextBox.Size = new Size(164, 25);
+            blueprintNameTextBox.TabIndex = 5;
             // 
             // fileLabel
             // 
@@ -141,11 +141,11 @@
             // 
             // orientationDropdown
             // 
-            orientationDropdown.FormattingEnabled = true;
-            orientationDropdown.Location = new Point(401, 285);
-            orientationDropdown.Name = "orientationDropdown";
-            orientationDropdown.Size = new Size(164, 25);
-            orientationDropdown.TabIndex = 11;
+            orientationComboBox.FormattingEnabled = true;
+            orientationComboBox.Location = new Point(401, 285);
+            orientationComboBox.Name = "orientationDropdown";
+            orientationComboBox.Size = new Size(164, 25);
+            orientationComboBox.TabIndex = 11;
             // 
             // label4
             // 
@@ -167,13 +167,13 @@
             // 
             // scaleDownFactorInput
             // 
-            scaleDownFactorInput.Location = new Point(401, 147);
-            scaleDownFactorInput.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
-            scaleDownFactorInput.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            scaleDownFactorInput.Name = "scaleDownFactorInput";
-            scaleDownFactorInput.Size = new Size(68, 25);
-            scaleDownFactorInput.TabIndex = 12;
-            scaleDownFactorInput.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            scaleDownInput.Location = new Point(401, 147);
+            scaleDownInput.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
+            scaleDownInput.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            scaleDownInput.Name = "scaleDownFactorInput";
+            scaleDownInput.Size = new Size(68, 25);
+            scaleDownInput.TabIndex = 12;
+            scaleDownInput.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // ditheringCheckBox
             // 
@@ -192,14 +192,14 @@
             ClientSize = new Size(800, 510);
             Controls.Add(ditheringCheckBox);
             Controls.Add(label5);
-            Controls.Add(scaleDownFactorInput);
-            Controls.Add(orientationDropdown);
+            Controls.Add(scaleDownInput);
+            Controls.Add(orientationComboBox);
             Controls.Add(label4);
             Controls.Add(roundColorsCheckBox);
             Controls.Add(label3);
             Controls.Add(scaleInput);
             Controls.Add(fileLabel);
-            Controls.Add(BlueprintNameTextbox);
+            Controls.Add(blueprintNameTextBox);
             Controls.Add(label2);
             Controls.Add(DefaultBlockTypeDropdown);
             Controls.Add(label1);
@@ -209,7 +209,7 @@
             Name = "ImageForm";
             Text = "Image parser";
             ((System.ComponentModel.ISupportInitialize)scaleInput).EndInit();
-            ((System.ComponentModel.ISupportInitialize)scaleDownFactorInput).EndInit();
+            ((System.ComponentModel.ISupportInitialize)scaleDownInput).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -221,15 +221,15 @@
         private Label label1;
         private ComboBox DefaultBlockTypeDropdown;
         private Label label2;
-        private TextBox BlueprintNameTextbox;
+        private TextBox blueprintNameTextBox;
         private Label fileLabel;
         private NumericUpDown scaleInput;
         private Label label3;
         private CheckBox roundColorsCheckBox;
-        private ComboBox orientationDropdown;
+        private ComboBox orientationComboBox;
         private Label label4;
         private Label label5;
-        private NumericUpDown scaleDownFactorInput;
+        private NumericUpDown scaleDownInput;
         private CheckBox ditheringCheckBox;
     }
 }

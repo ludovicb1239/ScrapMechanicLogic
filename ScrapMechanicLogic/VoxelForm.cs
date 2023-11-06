@@ -132,6 +132,7 @@ namespace ScrapMechanicLogic
         {
             PopulateComboBox(DefaultBlockTypeDropdown);
             UpdateConvertButtonAppearance();
+            UpdateRemElementButtonAppearance();
         }
         public static void PopulateComboBox(ComboBox cb)
         {
@@ -149,6 +150,7 @@ namespace ScrapMechanicLogic
         {
             ConvertButton.Enabled = isReadyToConvert;
             addNewElementButton.Enabled = isReadyToConvert;
+            UpdateRemElementButtonAppearance();
         }
 
         private void addNewElementButton_Click(object sender, EventArgs e)
@@ -156,13 +158,18 @@ namespace ScrapMechanicLogic
             BlockSelectionUserControl newControl = new BlockSelectionUserControl(usedColorCombos);
             selectionLayoutPanel.Controls.Add(newControl);
             blockSelectionControls.Add(newControl);
+            UpdateRemElementButtonAppearance();
         }
         private void remLastElementButton_Click(object sender, EventArgs e)
         {
             BlockSelectionUserControl ctrl = blockSelectionControls.Last();
             selectionLayoutPanel.Controls.Remove(ctrl);
             blockSelectionControls.Remove(ctrl);
-
+            UpdateRemElementButtonAppearance();
+        }
+        private void UpdateRemElementButtonAppearance()
+        {
+            remLastElementButton.Enabled = blockSelectionControls.Count != 0;
         }
         private void resetSelectionLayoutPanel()
         {

@@ -13,21 +13,24 @@ namespace ScrapMechanicLogic
 {
     public partial class ImageForm : Form
     {
-        string selectedFilePath = "";
-        bool readyToConvert = false;
+        string imageFilePath = "";
+        bool isReadyToConvert = false;
         public ImageForm()
         {
             InitializeComponent();
             PopulateComboBox(DefaultBlockTypeDropdown);
-            SetConvertButtonAppearance();
-            SetDitheringCheckboxAppearance();
-            orientationDropdown.Items.Add("Horizontal");
-            orientationDropdown.Items.Add("Vertical");
-            orientationDropdown.SelectedIndex = 0;
-            orientationDropdown.DropDownStyle = ComboBoxStyle.DropDownList;
+            UpdateConvertButtonState();
+            UpdateDitheringCheckboxState();
+            orientationComboBox.Items.Add("Horizontal");
+            orientationComboBox.Items.Add("Vertical");
+            orientationComboBox.SelectedIndex = 0;
+            orientationComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
         }
-        private void Browse_Click(object sender, EventArgs e)
+        private void BrowseButton_Click(object sender, EventArgs e)
         {
+            // Event handler for the "Browse" button click event.
+            // Opens a file dialog for selecting a PNG image file, updates UI components, and prepares the form for conversion.
+
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
             // Set the file filter to allow only MagicaVoxel Files
@@ -37,10 +40,10 @@ namespace ScrapMechanicLogic
 
             if (result == DialogResult.OK)
             {
-                selectedFilePath = openFileDialog.FileName;
-                fileLabel.Text = "Selected file : " + Path.GetFileName(selectedFilePath);
-                readyToConvert = true;
-                SetConvertButtonAppearance();
+                imageFilePath = openFileDialog.FileName;
+                fileLabel.Text = "Selected file : " + Path.GetFileName(imageFilePath);
+                isReadyToConvert = true;
+                UpdateConvertButtonState();
             }
             else
             {
@@ -49,19 +52,23 @@ namespace ScrapMechanicLogic
         }
         private void ConvertButton_Click(object sender, EventArgs e)
         {
+            // Event handler for the "Convert" button click event.
+            // Extracts user-selected values from UI controls, loads the PNG image, creates objects based on loaded data, and parses objects for conversion.
+            // Displays a message box upon completion.
+
             // Extracting selected values from UI controls
-            Orientation orientation = (Orientation)orientationDropdown.SelectedIndex;
+            Orientation orientation = (Orientation)orientationComboBox.SelectedIndex;
             BlockType blockType = (BlockType)DefaultBlockTypeDropdown.SelectedIndex;
             bool roundColors = roundColorsCheckBox.Checked;
             bool dithering = ditheringCheckBox.Checked;
-            int scaleDownFactor = (int)scaleDownFactorInput.Value;
-            string blueprintName = BlueprintNameTextbox.Text;
+            int scaleDownFactor = (int)scaleDownInput.Value;
+            string blueprintName = blueprintNameTextBox.Text;
 
             // Creating a new instance of MyPNGLoader class with specified parameters
             MyPNGLoader loader = new MyPNGLoader(roundColors, orientation, dithering, scaleDownFactor);
 
             // Loading a PNG file specified by selectedFilePath
-            loader.LoadPNG(selectedFilePath);
+            loader.LoadPNG(imageFilePath);
             Console.WriteLine("Read image file");
 
             if (loader.positions.Count == 0)
@@ -76,7 +83,7 @@ namespace ScrapMechanicLogic
 
             // Creating a DescriptionStruct object with the blueprint name entered in a text box
             DescriptionStruct description = new DescriptionStruct(string.IsNullOrWhiteSpace(blueprintName)
-                ? Path.GetFileNameWithoutExtension(selectedFilePath)
+                ? Path.GetFileNameWithoutExtension(imageFilePath)
                 : blueprintName);
 
             // Parsing objects using the created list and description
@@ -95,11 +102,11 @@ namespace ScrapMechanicLogic
             cb.SelectedIndex = 0;
             cb.DropDownStyle = ComboBoxStyle.DropDownList;
         }
-        private void SetConvertButtonAppearance()
+        private void UpdateConvertButtonState()
         {
-            ConvertButton.Enabled = readyToConvert;
+            ConvertButton.Enabled = isReadyToConvert;
         }
-        private void SetDitheringCheckboxAppearance()
+        private void UpdateDitheringCheckboxState()
         {
             ditheringCheckBox.Enabled = roundColorsCheckBox.Checked;
             if (!roundColorsCheckBox.Checked)
@@ -108,7 +115,7 @@ namespace ScrapMechanicLogic
 
         private void roundColorsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            SetDitheringCheckboxAppearance();
+            UpdateDitheringCheckboxState();
         }
     }
 }

@@ -29,12 +29,16 @@ namespace ScrapMechanicLogic
         private void BrowseButton_Click(object sender, EventArgs e)
         {
             // Event handler for the "Browse" button click event.
-            // Opens a file dialog for selecting a PNG image file, updates UI components, and prepares the form for conversion.
+            // Opens a file dialog for selecting an image file, updates UI components, and prepares the form for conversion.
 
             OpenFileDialog openFileDialog = new OpenFileDialog();
 
-            // Set the file filter to allow only MagicaVoxel Files
-            openFileDialog.Filter = "PNG Files (*.png)|*.png";
+            // Set the file filter to allow only Image Files
+            openFileDialog.Filter = "Image Files|*.bmp;*.jpg;*.jpeg;*.png;*.tif;*.tiff;*.ico|All Files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.CheckPathExists = true;
 
             DialogResult result = openFileDialog.ShowDialog();
 
@@ -53,7 +57,7 @@ namespace ScrapMechanicLogic
         private void ConvertButton_Click(object sender, EventArgs e)
         {
             // Event handler for the "Convert" button click event.
-            // Extracts user-selected values from UI controls, loads the PNG image, creates objects based on loaded data, and parses objects for conversion.
+            // Extracts user-selected values from UI controls, loads the image, creates objects based on loaded data, and parses objects for conversion.
             // Displays a message box upon completion.
 
             // Extracting selected values from UI controls
@@ -64,11 +68,11 @@ namespace ScrapMechanicLogic
             int scaleDownFactor = (int)scaleDownInput.Value;
             string blueprintName = blueprintNameTextBox.Text;
 
-            // Creating a new instance of MyPNGLoader class with specified parameters
-            MyPNGLoader loader = new MyPNGLoader(roundColors, orientation, dithering, scaleDownFactor);
+            // Creating a new instance of MyImageLoader class with specified parameters
+            MyImageLoader loader = new MyImageLoader(roundColors, orientation, dithering, scaleDownFactor);
 
-            // Loading a PNG file specified by selectedFilePath
-            loader.LoadPNG(imageFilePath);
+            // Loading an image file specified by imageFilePath
+            loader.LoadImage(imageFilePath);
             Console.WriteLine("Read image file");
 
             if (loader.positions.Count == 0)

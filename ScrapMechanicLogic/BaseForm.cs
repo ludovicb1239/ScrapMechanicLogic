@@ -26,7 +26,7 @@ namespace ScrapMechanicLogic
             newForm.Show();
         }
 
-        private void pngParserButton_Click(object sender, EventArgs e)
+        private void imageParserButton_Click(object sender, EventArgs e)
         {
             // Create an instance of VoxelForm and show it
             ImageForm newForm = new ImageForm();

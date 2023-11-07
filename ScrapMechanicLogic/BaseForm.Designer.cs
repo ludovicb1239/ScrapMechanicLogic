@@ -50,9 +50,9 @@
             pngParserButton.Name = "pngParserButton";
             pngParserButton.Size = new Size(243, 26);
             pngParserButton.TabIndex = 1;
-            pngParserButton.Text = "Open PNG Parser";
+            pngParserButton.Text = "Open Image Parser";
             pngParserButton.UseVisualStyleBackColor = true;
-            pngParserButton.Click += pngParserButton_Click;
+            pngParserButton.Click += imageParserButton_Click;
             // 
             // logicParserButton
             // 

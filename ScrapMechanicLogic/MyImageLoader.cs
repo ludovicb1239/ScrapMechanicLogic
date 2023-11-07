@@ -13,7 +13,7 @@ namespace ScrapMechanicLogic
     {
         Horizontal,Vertical
     }
-    internal class MyPNGLoader
+    internal class MyImageLoader
     {
         public List<Position> positions;
         public List<string> colors;
@@ -22,7 +22,7 @@ namespace ScrapMechanicLogic
         Orientation orientation = Orientation.Horizontal;
         bool dithering = false;
         int scaleDownFactor = 1;
-        public MyPNGLoader(bool compressColors = false, Orientation orientation = Orientation.Horizontal, bool dithering = false, int scaleDownFactor = 1)
+        public MyImageLoader(bool compressColors = false, Orientation orientation = Orientation.Horizontal, bool dithering = false, int scaleDownFactor = 1)
         {
             this.compressColors = compressColors;
             this.orientation = orientation;
@@ -32,7 +32,7 @@ namespace ScrapMechanicLogic
             colors = new();
             bounds = new();
         }
-        public void LoadPNG(string path)
+        public void LoadImage(string path)
         {
             Bitmap bitmap = new Bitmap(path);
 

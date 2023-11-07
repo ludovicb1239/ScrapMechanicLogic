@@ -28,6 +28,10 @@ namespace ScrapMechanicLogic
 
             // Set the file filter to allow only MagicaVoxel Files
             openFileDialog.Filter = "MagicaVoxel Files (*.vox)|*.vox|All Files (*.*)|*.*";
+            openFileDialog.FilterIndex = 1;
+            openFileDialog.Multiselect = false;
+            openFileDialog.CheckFileExists = true;
+            openFileDialog.CheckPathExists = true;
 
             DialogResult result = openFileDialog.ShowDialog();
 

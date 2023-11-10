@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 using CsharpVoxReader.Chunks;
+using System.Drawing.Imaging;
 
 namespace ScrapMechanicLogic
 {
@@ -46,6 +47,7 @@ namespace ScrapMechanicLogic
                 width = bitmap.Width; height = bitmap.Height;
                 Console.WriteLine("scaled down width : " + width);
                 Console.WriteLine("scaled down height : " + height);
+
             }
 
             if (dithering)

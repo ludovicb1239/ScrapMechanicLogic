@@ -56,6 +56,7 @@
             // 
             // logicParserButton
             // 
+            logicParserButton.Enabled = false;
             logicParserButton.Location = new Point(271, 361);
             logicParserButton.Name = "logicParserButton";
             logicParserButton.Size = new Size(243, 26);

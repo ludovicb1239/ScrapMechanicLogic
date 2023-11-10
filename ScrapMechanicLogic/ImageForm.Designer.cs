@@ -93,10 +93,10 @@
             label2.TabIndex = 4;
             label2.Text = "Blueprint Name";
             // 
-            // BlueprintNameTextbox
+            // blueprintNameTextBox
             // 
             blueprintNameTextBox.Location = new Point(401, 356);
-            blueprintNameTextBox.Name = "BlueprintNameTextbox";
+            blueprintNameTextBox.Name = "blueprintNameTextBox";
             blueprintNameTextBox.Size = new Size(164, 25);
             blueprintNameTextBox.TabIndex = 5;
             // 
@@ -139,11 +139,11 @@
             roundColorsCheckBox.UseVisualStyleBackColor = true;
             roundColorsCheckBox.CheckedChanged += roundColorsCheckBox_CheckedChanged;
             // 
-            // orientationDropdown
+            // orientationComboBox
             // 
             orientationComboBox.FormattingEnabled = true;
             orientationComboBox.Location = new Point(401, 285);
-            orientationComboBox.Name = "orientationDropdown";
+            orientationComboBox.Name = "orientationComboBox";
             orientationComboBox.Size = new Size(164, 25);
             orientationComboBox.TabIndex = 11;
             // 
@@ -165,12 +165,12 @@
             label5.TabIndex = 13;
             label5.Text = "Scale down factor";
             // 
-            // scaleDownFactorInput
+            // scaleDownInput
             // 
             scaleDownInput.Location = new Point(401, 147);
             scaleDownInput.Maximum = new decimal(new int[] { 8, 0, 0, 0 });
             scaleDownInput.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
-            scaleDownInput.Name = "scaleDownFactorInput";
+            scaleDownInput.Name = "scaleDownInput";
             scaleDownInput.Size = new Size(68, 25);
             scaleDownInput.TabIndex = 12;
             scaleDownInput.Value = new decimal(new int[] { 1, 0, 0, 0 });

@@ -19,9 +19,7 @@ namespace ScrapMechanicLogic
 {
     internal class ScrapMechanic
     {
-        static int i = 0;
-        static List<DefaultObjectStruct> objects = new List<DefaultObjectStruct>();
-        static DefaultObjectStruct LogicDataPreset  = new DefaultObjectStruct
+        static public DefaultObjectStruct LogicDataPreset  = new DefaultObjectStruct
         {
             color = "df7f01",
             controller = new(),
@@ -30,15 +28,16 @@ namespace ScrapMechanicLogic
             xaxis = 1,
             zaxis = -2
         };
-        static DefaultObjectStruct LightDataPreset  = new DefaultObjectStruct
+        static public DefaultObjectStruct LightDataPreset  = new DefaultObjectStruct
         {
             color = "df7f01",
+            controller = new(),
             pos = new(),
             shapeId = "ed27f5e2-cac5-4a32-a5d9-49f116acc6af",
-            xaxis = -1,
-            zaxis = 2
+            xaxis = 1,
+            zaxis = -2
         };
-        static DefaultObjectStruct SwitchDataPreset = new DefaultObjectStruct
+        static public DefaultObjectStruct SwitchDataPreset = new DefaultObjectStruct
         {
             color = "df7f01",
             controller = new(),
@@ -47,7 +46,16 @@ namespace ScrapMechanicLogic
             xaxis = -3,
             zaxis = 2
         };
-        static DefaultObjectStruct BlockDataPreset  = new DefaultObjectStruct
+        static public DefaultObjectStruct ButtonDataPreset = new DefaultObjectStruct
+        {
+            color = "df7f01",
+            controller = new(),
+            pos = new(),
+            shapeId = "1e8d93a4-506b-470d-9ada-9c0a321e2db5",
+            xaxis = -1,
+            zaxis = 3
+        };
+        static public DefaultObjectStruct BlockDataPreset  = new DefaultObjectStruct
         {
             color = "8D8F89",
             bounds = new Bound { x = 1, y = 1, z = 1 },
@@ -56,7 +64,7 @@ namespace ScrapMechanicLogic
             xaxis = 1, //1
             zaxis = 3   //3
         };
-        static JsonSerializerOptions JSONoptions = new JsonSerializerOptions
+        static private JsonSerializerOptions JSONoptions = new JsonSerializerOptions
         {
             WriteIndented = false,
             DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
@@ -132,54 +140,6 @@ namespace ScrapMechanicLogic
         {
             BlockDataPreset.color = ScrapMechanicEnums.blockDataDictionary[blockType].Color;
             BlockDataPreset.shapeId = ScrapMechanicEnums.blockDataDictionary[blockType].ShapeId;
-        }
-        public void addLogicObject(ControllerInfo controller, Position pos)
-        {
-            if (controller.controllers.Count == 0) { controller.controllers = null; }
-            LogicDataPreset.controller = controller;
-            LogicDataPreset.pos = pos;
-            objects.Add(LogicDataPreset);
-            i++;
-        }
-        public void addLightObject(ControllerInfo controller, Position pos)
-        {
-            if (controller.controllers.Count == 0) { controller.controllers = null; }
-            LightDataPreset.controller = controller;
-            LightDataPreset.pos = pos;
-            objects.Add(LightDataPreset);
-            i++;
-        }
-        public List<DefaultObjectStruct> setObjects(Dictionary<int, ControllerInfo> infos, short bus)
-        {
-            i = 0;
-            objects = new List<DefaultObjectStruct>();
-
-            addLogicObject(infos[0], new Position { x = 0, y = 0, z = 0 });
-
-            for (int b = 0; b < 8; b++)
-                addLogicObject(infos[1 + b], new Position { x = 1, y = b, z = 0 });
-            for (int b = 0; b < 8; b++)
-                addLogicObject(infos[9 + b], new Position { x = 2, y = b, z = 0 });
-            for (short b = 0; b < bus; b++)
-                addLogicObject(infos[17 + b], new Position { x = 3, y = b, z = 0 });
-
-            for (int z = 0; z < (int)Math.Pow(2, bus); z++)
-            {
-                for (int y = 0; y < 1 + bus; y++)
-                {
-                    if (infos.TryGetValue(i, out var controlleri))
-                        addLogicObject(controlleri, new Position { x = 4, y = y, z = z });
-                }
-                for (int x = 0; x < 8; x++)
-                {
-                    for (int y = 0; y < 8; y++)
-                    {
-                        if (infos.TryGetValue(i, out var controlleri))
-                            addLogicObject(controlleri, new Position { x = 5 + x, y = y, z = z });
-                    }
-                }
-            }
-            return objects;
         }
         public static void CreateFromBlocks(List<Position> positions, BlockType blockType, List<DefaultObjectStruct> list, string[] palette, List<byte> paletteIndex, List<Bound> boundings, int scale = 1)
         {
@@ -300,216 +260,6 @@ namespace ScrapMechanicLogic
                 list.Add(BlockDataPreset);
             }
         }
-        public List<DefaultObjectStruct> create8bRam(short bus)
-        {
-            Dictionary<int, ControllerInfo> dict = new Dictionary<int, ControllerInfo>();
-
-            //0 - R/W
-            //[8] - INPUT
-            //[8] - OUTPUT
-            //[bus] - SEL
-
-            dict.Add(0, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                { },
-                id = 0,
-                joints = null,
-                mode = (int)LogicOperand.AND
-            });
-            for (int b = 0; b < 16; b++)
-            {
-                dict.Add(1 + b, new ControllerInfo
-                {
-                    active = false,
-                    controllers = new()
-                    { },
-                    id = 1 + b,
-                    joints = null,
-                    mode = (int)LogicOperand.OR
-                });
-            }
-            for (short b = 0; b < bus; b++)
-            {
-                dict.Add(17 + b, new ControllerInfo
-                {
-                    active = false,
-                    controllers = new()
-                    { },
-                    id = 17 + b,
-                    joints = null,
-                    mode = (int)LogicOperand.AND
-                });
-            }
-
-
-            int[,] logicNumBC = new int[(int)Math.Pow(2, bus), 8];
-            int[] logicNumCompare = new int[(int)Math.Pow(2, bus)];
-            for (int i = 0; i < (int)Math.Pow(2, bus); i++)
-            {
-                logicNumCompare[i] = dict.Count;
-                createEqualCompare(dict, bus, i);
-                for (int b = 0; b < 8; b++)
-                {
-                    int logicNumFlipFlop = dict.Count;
-                    createRSFlipFlop(dict);
-                    logicNumBC[i, b] = dict.Count;
-                    createBC(dict);
-                    dict[logicNumBC[i, b] + 1].controllers.Add(new Controller { id = logicNumFlipFlop });
-                    dict[logicNumBC[i, b] + 2].controllers.Add(new Controller { id = logicNumFlipFlop + 2 });
-                    dict[logicNumFlipFlop + 1].controllers.Add(new Controller { id = logicNumBC[i, b] + 4 });
-                    dict[logicNumCompare[i]].controllers.Add(new Controller { id = logicNumBC[i, b] + 1 });
-                    dict[logicNumCompare[i]].controllers.Add(new Controller { id = logicNumBC[i, b] + 2 });
-                    dict[logicNumCompare[i]].controllers.Add(new Controller { id = logicNumBC[i, b] + 4 });
-                    dict[0].controllers.Add(new Controller { id = logicNumBC[i, b] + 1 });
-                    dict[0].controllers.Add(new Controller { id = logicNumBC[i, b] + 2 });
-                    dict[0].controllers.Add(new Controller { id = logicNumBC[i, b] + 3 });
-                    dict[b + 1].controllers.Add(new Controller { id = logicNumBC[i, b] + 0 });
-                    dict[b + 1].controllers.Add(new Controller { id = logicNumBC[i, b] + 2 });
-                    dict[b + 17].controllers.Add(new Controller { id = logicNumCompare[i] + 1 + b });
-                    dict[logicNumBC[i, b] + 4].controllers.Add(new Controller { id = 9 + b });
-                }
-            }
-
-            return setObjects(dict, bus);
-        }
-        public static void createRSFlipFlop(Dictionary<int, ControllerInfo> dict)
-        {
-            //IN 0 - R
-            //IN 2 - S
-            //OUT 1 - Q
-
-
-            int logicNum = dict.Count;
-            dict.Add(logicNum, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                {
-                    new Controller { id = logicNum+1 }
-                },
-                id = logicNum,
-                joints = null,
-                mode = (int)LogicOperand.OR
-            });
-            dict.Add(logicNum + 1, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                {
-                    new Controller { id = logicNum+2 }
-                },
-                id = logicNum + 1,
-                joints = null,
-                mode = (int)LogicOperand.NOT
-            });
-            dict.Add(logicNum + 2, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                {
-                    new Controller { id = logicNum }
-                },
-                id = logicNum + 2,
-                joints = null,
-                mode = (int)LogicOperand.NOR
-            });
-        }
-        public static void createBC(Dictionary<int, ControllerInfo> dict)
-        {
-            //IN 0 - Input
-            //IN 1&2&4 - Select
-            //IN 1&2&3 - R/W
-            //IN 4 - Q
-            //OUT 4- OUTPUT
-            //OUT 1 - R
-            //OUT 2 - S
-
-
-            int logicNum = dict.Count;
-            dict.Add(logicNum, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                {
-                    new Controller { id = logicNum+1 }
-                },
-                id = logicNum,
-                joints = null,
-                mode = (int)LogicOperand.NOT
-            });
-            dict.Add(logicNum + 1, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                { },
-                id = logicNum + 1,
-                joints = null,
-                mode = (int)LogicOperand.AND
-            });
-            dict.Add(logicNum + 2, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                { },
-                id = logicNum + 2,
-                joints = null,
-                mode = (int)LogicOperand.AND
-            });
-            dict.Add(logicNum + 3, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                {
-                    new Controller { id = logicNum + 4 }
-                },
-                id = logicNum + 3,
-                joints = null,
-                mode = (int)LogicOperand.NOT
-            });
-            dict.Add(logicNum + 4, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                { },
-                id = logicNum + 4,
-                joints = null,
-                mode = (int)LogicOperand.AND
-            });
-        }
-        public static void createEqualCompare(Dictionary<int, ControllerInfo> dict, short bus, int compareValue)
-        {
-            //OUT 0 - OutputCompare
-            //IN +1 - bit 0
-            //IN +2 - bit 1
-
-            int logicNum = dict.Count;
-            dict.Add(logicNum, new ControllerInfo
-            {
-                active = false,
-                controllers = new()
-                { },
-                id = logicNum,
-                joints = null,
-                mode = (int)LogicOperand.AND
-            });
-            for (int i = 0; i < bus; i++)
-            {
-                dict.Add(logicNum + i + 1, new ControllerInfo
-                {
-                    active = false,
-                    controllers = new()
-                    {
-                        new Controller { id = logicNum }
-                    },
-                    id = logicNum + i + 1,
-                    joints = null,
-                    mode = (int)(((compareValue >> i) & 1) == 1 ? LogicOperand.AND : LogicOperand.NOT)
-                });
-            }
-        }
-
     }
 
     internal class ScrapMechanicColor

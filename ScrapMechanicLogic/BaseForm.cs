@@ -28,14 +28,14 @@ namespace ScrapMechanicLogic
 
         private void imageParserButton_Click(object sender, EventArgs e)
         {
-            // Create an instance of VoxelForm and show it
+            // Create an instance of ImageForm and show it
             ImageForm newForm = new ImageForm();
             newForm.Show();
         }
 
         private void logicParserButton_Click(object sender, EventArgs e)
         {
-            // Create an instance of VoxelForm and show it
+            // Create an instance of LogicForm and show it
             LogicForm newForm = new LogicForm();
             newForm.Show();
         }

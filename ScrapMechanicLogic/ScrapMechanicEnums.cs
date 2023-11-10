@@ -94,10 +94,10 @@ namespace ScrapMechanicLogic
     public struct ControllerInfo
     {
         public bool active { get; set; }
-        public List<Controller> controllers { get; set; }
+        public List<Controller>? controllers { get; set; }
         public int id { get; set; }
         public object joints { get; set; }
-        public int mode { get; set; }
+        public int? mode { get; set; }
     }
 
     [Serializable]

@@ -35,6 +35,7 @@ Very modulable to add features and elements to import.
 - Block type selection
 - Orientation
 - Scale Slider
+
 ![Example of dithering](/ScrapMechanicLogic/Images/Comparaison.png)
 
 ### Logic Parser

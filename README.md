@@ -35,6 +35,8 @@ Very modulable to add features and elements to import.
 - Block type selection
 - Orientation
 - Scale Slider
+(/ScrapMechanicLogic/Images/Comparaison.png)
+
 ### Logic Parser
 Comming Soon
 
